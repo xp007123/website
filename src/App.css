@@ -85,6 +85,16 @@ button, a, .interactive { pointer-events: auto; cursor: pointer; }
 .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 999; }
 .menu-overlay.active { opacity: 1; pointer-events: auto; }
 
+/* ===== Nav Dropdown ===== */
+.nav-dropdown { position: relative; }
+.nav-dropdown-trigger { display: flex !important; align-items: center; gap: 4px; }
+.nav-dropdown-arrow { font-size: 0.55rem; transition: transform 0.3s; margin-left: 2px; }
+.nav-dropdown:hover .nav-dropdown-arrow { transform: rotate(180deg); }
+.nav-dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(8px); min-width: 200px; background: rgba(10,21,37,0.95); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(0,229,196,0.15); border-radius: 10px; padding: 8px 0; opacity: 0; visibility: hidden; transition: all 0.25s ease; pointer-events: none; box-shadow: 0 12px 40px rgba(0,0,0,0.5); z-index: 1100; }
+.nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+.nav-dropdown-item { display: block; padding: 10px 20px; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.2s; letter-spacing: 0.04em; white-space: nowrap; }
+.nav-dropdown-item:hover { color: var(--terra-green); background: rgba(0,229,196,0.08); }
+
 @media (max-width: 1024px) {
     .hamburger { display: flex; }
     .top-nav { padding: 12px 20px; }
@@ -96,6 +106,14 @@ button, a, .interactive { pointer-events: auto; cursor: pointer; }
     .lang-switch { display: none; }
     .top-nav-links .lang-switch-mobile { display: inline-block; background: rgba(0,229,196,0.15); color: #00E5C4; padding: 16px 20px; border-radius: 12px; font-size: 1rem; font-weight: 600; text-align: left; margin-top: 20px; border: 1px solid rgba(0,229,196,0.3); }
     .top-nav-links .top-nav-wallet-mobile { display: inline-block; background: #00E5C4; color: #050D1A; padding: 16px 20px; border-radius: 12px; font-size: 1rem; font-weight: 700; text-align: center; margin-top: 16px; width: 100%; border: none; }
+    .nav-dropdown { width: 100%; }
+    .nav-dropdown-trigger { width: 100%; justify-content: space-between; }
+    .nav-dropdown-menu,
+    .nav-dropdown:hover .nav-dropdown-menu { position: static; transform: none; left: auto; min-width: unset; width: 100%; box-sizing: border-box; background: rgba(0,229,196,0.04); border: none; border-radius: 8px; margin-top: 4px; padding: 4px 0; opacity: 1; visibility: visible; pointer-events: auto; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; display: none; }
+    .nav-dropdown.open .nav-dropdown-menu { display: block; }
+    .nav-dropdown.open .nav-dropdown-arrow { transform: rotate(180deg); }
+    .nav-dropdown-item { display: block; width: 100%; box-sizing: border-box; padding: 12px 20px; font-size: 1rem; color: rgba(255,255,255,0.7); border-bottom: none; white-space: normal; }
+    .nav-dropdown-item:hover { background: rgba(0,229,196,0.1); color: #00E5C4; }
 }
 
 @media (max-width: 768px) {
@@ -159,6 +177,7 @@ body.lang-zh .data-block { font-family: var(--zh-serif); }
 @keyframes pulse { 0% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.2); } 100% { opacity:1; transform:scale(1); } }
 
 @media (max-width: 768px) {
+    .ui-layer { height: auto; min-height: 100vh; grid-template-rows: auto 1fr auto auto; }
     .footer-content { flex-direction: column; align-items: center; }
     .footer-content .value-panel { flex-direction: column; width: 100%; }
     .value-item { min-height: auto; padding: 20px 16px; }
@@ -167,7 +186,7 @@ body.lang-zh .data-block { font-family: var(--zh-serif); }
     h1 { font-size: 18vw; }
     .title-line { display: none; }
     .data-block { display: none; }
-    .grunge-map { min-height: auto; padding: var(--pad-sm); }
+    .grunge-map { min-height: auto; padding: var(--pad-sm); overflow: visible; }
     header { padding: 12px 16px; padding-top: 60px; }
 }
 

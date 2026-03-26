@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import * as THREE from 'three';
 import './App.css';
 import { translations } from './translations';
 
 function App() {
-  const [lang, setLang] = useState('en');
+  const [lang, setLang] = useState(() => localStorage.getItem('lang') || 'en');
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalActive, setModalActive] = useState(false);
+  const [wpDropdownOpen, setWpDropdownOpen] = useState(false);
   const [p4idx, setP4idx] = useState(0);
   const [typewriterText, setTypewriterText] = useState('');
   const canvasRef = useRef(null);
@@ -105,7 +107,9 @@ function App() {
   }, []);
 
   const toggleLang = () => {
-    setLang(lang === 'en' ? 'zh' : 'en');
+    const newLang = lang === 'en' ? 'zh' : 'en';
+    setLang(newLang);
+    localStorage.setItem('lang', newLang);
   };
 
   const handleComingSoon = (e) => {
@@ -137,7 +141,14 @@ function App() {
           <a href="#page-three" className="top-nav-link">{t['nav.products']}</a>
           <a href="#page-four" className="top-nav-link">{t['nav.dapp']}</a>
           <a href="#page-five" className="top-nav-link">{t['nav.ecosystem']}</a>
-          <a href="https://oss-file.s3.ap-northeast-1.amazonaws.com/POCC%EF%BC%88Proof+of+Computation+Capacity%EF%BC%89%E5%85%B1%E8%AF%86%E3%80%81TSS+%E6%B2%BB%E7%90%86%E4%B8%8E+RWA+%E7%AE%97%E5%8A%9B%E8%B5%84%E4%BA%A7%E5%8C%96%E4%BD%93%E7%B3%BB.pdf" className="top-nav-link" target="_blank" rel="noopener noreferrer">{t['nav.whitepaper']}</a>
+          <div className={`nav-dropdown ${wpDropdownOpen ? 'open' : ''}`}>
+            <a href="#" className="top-nav-link nav-dropdown-trigger" onClick={(e) => { if (window.innerWidth <= 1024) { e.preventDefault(); setWpDropdownOpen(!wpDropdownOpen); } }}>
+              {t['nav.whitepaper']} <svg className="nav-dropdown-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
+            </a>
+            <div className="nav-dropdown-menu">
+              <Link to="/whitepaper-technical" className="nav-dropdown-item" onClick={() => { setMenuOpen(false); setWpDropdownOpen(false); }}>{t['nav.wp_technical']}</Link>
+            </div>
+          </div>
           <a href="https://ma-chain.xyz/" className="top-nav-link" target="_blank" rel="noopener noreferrer">{t['nav.explorer']}</a>
           <a href="#" className="top-nav-link top-nav-link-accent" onClick={handleComingSoon}>{t['nav.clawmask']}</a>
           <a href="#" className="top-nav-link" onClick={handleComingSoon}>{t['nav.miningpool']}</a>
@@ -169,7 +180,7 @@ function App() {
             </ul>
           </div>
           <div className="hero-title-wrapper">
-            <h1>MACC</h1>
+            <h1>MAC</h1>
             <div className="star-graphic">
               <svg viewBox="0 0 40 40"><path d="M20 0 L23 17 L40 20 L23 23 L20 40 L17 23 L0 20 L17 17 Z"></path></svg>
             </div>
@@ -696,7 +707,7 @@ function App() {
             <div className="footer-links">
               <div className="footer-col">
                 <h4>{t['footer.col1h']}</h4>
-                <a href="https://oss-file.s3.ap-northeast-1.amazonaws.com/POCC%EF%BC%88Proof+of+Computation+Capacity%EF%BC%89%E5%85%B1%E8%AF%86%E3%80%81TSS+%E6%B2%BB%E7%90%86%E4%B8%8E+RWA+%E7%AE%97%E5%8A%9B%E8%B5%84%E4%BA%A7%E5%8C%96%E4%BD%93%E7%B3%BB.pdf" target="_blank" rel="noopener noreferrer">{t['footer.col1l1']}</a>
+                <Link to="/whitepaper-technical">{t['footer.col1l1']}</Link>
                 <a href="#" onClick={handleComingSoon}>{t['footer.col1l2']}</a>
                 <a href="#" onClick={handleComingSoon}>{t['footer.col1l3']}</a>
                 <a href="#" onClick={handleComingSoon}>{t['footer.col1l4']}</a>
